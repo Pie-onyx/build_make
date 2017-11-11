@@ -946,6 +946,25 @@ else if get_stage("%(bcb_dev)s") == "3/3" then
   script.Print("Target: {}".format(target_info.fingerprint))
 
   script.AppendExtra("ifelse(is_mounted(\"/system\"), unmount(\"/system\"));")
+
+  lemon_version = target_info.GetBuildProp("ro.lemon.display.version")
+  android_version = target_info.GetBuildProp("ro.build.version.release")
+  build_id = target_info.GetBuildProp("ro.build.id")
+  build_date = target_info.GetBuildProp("ro.build.date")
+  security_patch = target_info.GetBuildProp("ro.build.version.security_patch")
+  device = target_info.GetBuildProp("ro.lemon.device")
+  script.Print("----------------------------------------------");
+  script.Print("           Android Open Source Project        ");
+  script.Print("               Lemon by YumeMichi             ");
+  script.Print("----------------------------------------------");
+  script.Print(" Lemon version:   %s"%(lemon_version));
+  script.Print(" Android version: %s"%(android_version));
+  script.Print(" Build id:        %s"%(build_id));
+  script.Print(" Build date:      %s"%(build_date));
+  script.Print(" Security patch:  %s"%(security_patch));
+  script.Print(" Device:          %s"%(device));
+  script.Print("----------------------------------------------");
+
   device_specific.FullOTA_InstallBegin()
 
   system_progress = 0.75
