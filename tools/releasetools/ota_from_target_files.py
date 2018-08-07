@@ -217,6 +217,7 @@ OPTIONS.skip_postinstall = False
 OPTIONS.override_device = 'auto'
 OPTIONS.backuptool = False
 
+BACKUPTOOL_VERSION = '8.'
 
 METADATA_NAME = 'META-INF/com/android/metadata'
 POSTINSTALL_CONFIG = 'META/postinstall_config.txt'
@@ -721,16 +722,6 @@ def AddCompatibilityArchiveIfTrebleEnabled(target_zip, output_zip, target_info,
   AddCompatibilityArchive(system_updated, vendor_updated)
 
 
-def CopyInstallTools(output_zip):
-  oldcwd = os.getcwd()
-  os.chdir(os.getenv('OUT'))
-  for root, subdirs, files in os.walk("install"):
-    for f in files:
-      p = os.path.join(root, f)
-      output_zip.write(p, p)
-  os.chdir(oldcwd)
-
-
 def WriteFullOTAPackage(input_zip, output_file):
   target_info = BuildInfo(OPTIONS.info_dict, OPTIONS.oem_dicts)
 
@@ -841,14 +832,9 @@ else if get_stage("%(bcb_dev)s") == "3/3" then
 
   device_specific.FullOTA_InstallBegin()
 
-  CopyInstallTools(output_zip)
-  script.UnpackPackageDir("install", "/tmp/install")
-  script.SetPermissionsRecursive("/tmp/install", 0, 0, 0755, 0644, None, None)
-  script.SetPermissionsRecursive("/tmp/install/bin", 0, 0, 0755, 0755, None, None)
-
   if OPTIONS.backuptool:
     script.Mount("/system")
-    script.RunBackup("backup")
+    script.RunBackup("backup", BACKUPTOOL_VERSION)
     script.Unmount("/system")
 
   system_progress = 0.75
@@ -893,7 +879,7 @@ else if get_stage("%(bcb_dev)s") == "3/3" then
   if OPTIONS.backuptool:
     script.ShowProgress(0.02, 10)
     script.Mount("/system")
-    script.RunBackup("restore")
+    script.RunBackup("restore", BACKUPTOOL_VERSION)
     script.Unmount("/system")
 
   script.ShowProgress(0.05, 5)
