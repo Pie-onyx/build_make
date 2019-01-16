@@ -1091,4 +1091,8 @@ endif
 # Rules for QCOM targets
 -include $(BUILD_SYSTEM)/qcom_utils.mk
 
+## We need to be sure the global selinux policies are included
+## last, to avoid accidental resetting by device configs
+$(eval include device/lemon/sepolicy/common/sepolicy.mk)
+
 include $(BUILD_SYSTEM)/dumpvar.mk
