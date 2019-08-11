@@ -230,8 +230,6 @@ include $(BUILD_SYSTEM)/envsetup.mk
 # See envsetup.mk for a description of SCAN_EXCLUDE_DIRS
 FIND_LEAVES_EXCLUDES := $(addprefix --prune=, $(SCAN_EXCLUDE_DIRS) .repo .git)
 
-include vendor/lemon/config/BoardConfigLemon.mk
-
 # The build system exposes several variables for where to find the kernel
 # headers:
 #   TARGET_DEVICE_KERNEL_HEADERS is automatically created for the current
@@ -1171,6 +1169,8 @@ dont_bother_goals := out \
     recoveryimage-nodeps \
     vbmetaimage-nodeps \
     product-graph dump-products
+
+include vendor/lemon/config/BoardConfigLemon.mk
 
 ifeq ($(CALLED_FROM_SETUP),true)
 include $(BUILD_SYSTEM)/ninja_config.mk
