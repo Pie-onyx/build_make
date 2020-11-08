@@ -140,4 +140,4 @@ _my_paths := \
   $(TARGET_COPY_OUT_ROOT)/ \
   $(TARGET_COPY_OUT_SYSTEM)/ \
 
-$(call require-artifacts-in-path, $(_my_paths), $(_my_allowed_list))
+#$(call require-artifacts-in-path, $(_my_paths), $(_my_allowed_list))
